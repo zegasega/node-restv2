@@ -1,6 +1,5 @@
 const { userSchema } = require('../validations/userValidation');
 const UserService = require('../services/userService');
-const { error } = require('console');
 
 class UserController {
   static async createUser(req, res) {
@@ -24,28 +23,39 @@ class UserController {
     }
   }
 
-  static async getUserByID(req,res){
+  static async getUserByID(req, res) {
     const { id } = req.params;
 
-    try{
-        const user = await UserService.getUserByID(id);
-        res.status(200).json(user)
-    } catch(err){
-        res.status(404).json({"error": err.message});
+    try {
+      const user = await UserService.getUserByID(id);
+      res.status(200).json(user);
+    } catch (err) {
+      res.status(404).json({ error: err.message });
     }
   }
 
   static async deleteUserByID(req, res) {
     const { id } = req.params;
-    
+
     try {
-        const deletedUser = await UserService.deleteUserByID(id); 
-        res.status(200).json(deletedUser);
-    } catch (error) {
-       
-        res.status(404).json({ error: error.message }); 
+      const deletedUser = await UserService.deleteUserByID(id);
+      res.status(200).json(deletedUser);
+    } catch (err) {
+      res.status(404).json({ error: err.message });
     }
-}
+  }
+
+  static async updateUserByID(req, res) {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+      const updatedUser = await UserService.updateUserByID(id, updateData);
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      res.status(404).json({ error: err.message });
+    }
+  }
 }
 
 module.exports = UserController;
